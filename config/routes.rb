@@ -1,4 +1,7 @@
 ServerWatcher::Application.routes.draw do
+  resources :ping_logs
+
+
   resources :servers
 
 
