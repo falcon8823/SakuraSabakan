@@ -1,5 +1,7 @@
 class PingLog < ActiveRecord::Base
-  attr_accessible :ping_detail, :server_id, :status
+  attr_accessible :ping_detail, :server_id, :status,
+    :min, :max, :avg, :stddev,
+    :transmitted, :received, :packet_loss
 
   # Relation Ship
   belongs_to :server
