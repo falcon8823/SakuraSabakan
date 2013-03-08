@@ -2,7 +2,7 @@ class PingLogsController < ApplicationController
   # GET /ping_logs
   # GET /ping_logs.json
   def index
-    @ping_logs = PingLog.all
+    @ping_logs = PingLog.desc_by_date
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,6 +25,7 @@ class PingLogsController < ApplicationController
   # GET /ping_logs/new.json
   def new
     @ping_log = PingLog.new
+    @servers = Server.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,6 +36,7 @@ class PingLogsController < ApplicationController
   # GET /ping_logs/1/edit
   def edit
     @ping_log = PingLog.find(params[:id])
+    @servers = Server.all
   end
 
   # POST /ping_logs
