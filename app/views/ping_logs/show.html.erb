@@ -1,27 +1,36 @@
-<%- model_class = PingLog -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  <h1>
+    詳細ログ
+    <small>pingの詳細ログを表示する画面</small>
+  </h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:date) %>:</strong></dt>
+  <dt><strong>監視日時:</strong></dt>
   <dd><%= @ping_log.date %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:server_id) %>:</strong></dt>
-  <dd><%= @ping_log.server_id %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
-  <dd><%= @ping_log.status %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:ping_detail) %>:</strong></dt>
-  <dd><%= @ping_log.ping_detail %></dd>
+  <dt><strong>対象サーバ:</strong></dt>
+  <dd><%= link_to @ping_log.server.address, @ping_log.server %></dd>
+  <dt><strong>状態:</strong></dt>
+
+  <dd>
+    <% case @ping_log.status %>
+      <% when 'Success' %>
+        <span class="label label-success">Success</span>
+      <% when 'Failed' %>
+        <span class="label label-important">Failed</span>
+    <% end %>
+  </dd>
+  <dt><strong>応答時間(最小/平均/最大/標準偏差)[ms]:</strong></dt>
+  <dd><%= "#{@ping_log.min}/#{@ping_log.avg}/#{@ping_log.max}/#{@ping_log.stddev}" %></dd>
+  <dt><strong>パケットロス[%]:</strong></dt>
+  <dd><%= @ping_log.packet_loss %></dd>
+  <dt><strong>ping実行ログ:</strong></dt>
+  <dd>
+    <pre><%= @ping_log.ping_detail %></pre>
+  </dd>
 </dl>
 
 <div class="form-actions">
   <%= link_to t('.back', :default => t("helpers.links.back")),
               ping_logs_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_ping_log_path(@ping_log), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              ping_log_path(@ping_log),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
 </div>

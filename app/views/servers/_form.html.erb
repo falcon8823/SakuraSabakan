@@ -1,12 +1,12 @@
 <%= form_for @server, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="control-group">
-    <%= f.label :address, :class => 'control-label' %>
+    <%= f.label 'サーバアドレス', :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :address, :class => 'text_field' %>
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :description, :class => 'control-label' %>
+    <%= f.label '説明', :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :description, :class => 'text_field' %>
     </div>

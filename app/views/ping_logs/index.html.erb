@@ -1,32 +1,41 @@
-<%- model_class = PingLog -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  <h1>
+    Ping監視ログ
+    <small>ping監視ログの一覧（実際には各サーバのログのみ表示）</small>
+  </h1>
 </div>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:date) %></th>
-      <th><%= model_class.human_attribute_name(:server_id) %></th>
-      <th><%= model_class.human_attribute_name(:status) %></th>
-      <th><%= model_class.human_attribute_name(:ping_detail) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      <th>対象サーバ</th>
+      <th>日時</th>
+      <th>結果</th>
+      <th>平均応答時間[ms]</th>
+      <th>パケットロス[%]</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @ping_logs.each do |ping_log| %>
       <tr>
-        <td><%= link_to ping_log.id, ping_log_path(ping_log) %></td>
+        <td><%= link_to ping_log.server.address, ping_log.server %></td>
         <td><%= ping_log.date %></td>
-        <td><%= ping_log.server_id %></td>
-        <td><%= ping_log.status %></td>
-        <td><%= ping_log.ping_detail %></td>
-        <td><%=l ping_log.created_at %></td>
         <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_ping_log_path(ping_log), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+          <% case ping_log.status %>
+            <% when 'Success' %>
+              <span class="label label-success">Success</span>
+            <% when 'Failed' %>
+              <span class="label label-important">Failed</span>
+          <% end %>
+          <%= link_to '詳細',
+            ping_log_path(ping_log),
+            :class => 'btn btn-mini btn-info' %>
+        </td>
+        <td><%= ping_log.avg %></td>
+        <td><%= ping_log.packet_loss %></td>
+        <td>
+
+          <%= link_to '削除',
                       ping_log_path(ping_log),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
@@ -37,6 +46,3 @@
   </tbody>
 </table>
 
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_ping_log_path,
-            :class => 'btn btn-primary' %>

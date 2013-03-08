@@ -1,23 +1,44 @@
-<%- model_class = Server -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  <h2>
+    <%= @server.address %>の監視状況
+    <small>全サービスの監視状況を視覚的に確認できる画面</small>
+  </h2>
+</div>
+<div class="row">
+  <div class="span12">
+    <%= link_to 'サーバ情報設定',
+              edit_server_path(@server), :class => 'btn btn-info pull-right' %>
+  </div>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:address) %>:</strong></dt>
-  <dd><%= @server.address %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @server.description %></dd>
-</dl>
+<div class="row">
+  <div class="span6 alert alert-success">
+    <h4>
+    	<i class="icon-ok-sign"></i>
+    	<%= link_to 'Ping', ping_logs_path %>
+    </h4>
+    <p>正常に動作しています。</p>
+    <p>最終監視日時：2013/03/08 14:05:40</p>
+  </div>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              servers_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_server_path(@server), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              server_path(@server),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+  <div class="span6 alert">
+  	<h4>
+  		<i class="icon-exclamation-sign"></i>
+  		<%= link_to 'HTTP/HTTPS', '#' %>
+  	</h4>
+  	<p>Sample: いくつかのエラーがあります。</p>
+  </div>
 </div>
+
+<div class="row">
+  <div class="span6 alert alert-error">
+    <h4><i class="icon-minus-sign"></i>SSH</h4>
+    <p>Sample: 監視に失敗しました。サーバの動作を確認してください。</p>
+  </div>
+
+</div>
+
+
+<hr>
+<%= link_to '戻る', servers_path, :class => 'btn' %>
+

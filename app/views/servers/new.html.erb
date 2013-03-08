@@ -1,5 +1,7 @@
-<%- model_class = Server -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human %></h1>
+  <h1>
+  	監視対象サーバ追加
+  	<small>監視するサーバを追加する画面です</small>
+  </h1>
 </div>
 <%= render :partial => 'form' %>
