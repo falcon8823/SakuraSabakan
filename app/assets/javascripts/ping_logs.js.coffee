@@ -1,3 +1,31 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
+# ライブラリの読み込み
+google.load 'visualization', '1', {'packages':['corechart']}
+
+# グラフの描画関数
+drawPingLogChart = () ->
+	# pingログのJSONデータを取得
+	json = JSON.parse $.ajax(
+		url: ping_logs_path,
+		dataType: 'json',
+		async: false
+	).responseText
+
+	data = new google.visualization.DataTable
+	data.addColumn('datetime', 'Time')
+	data.addColumn('number', 'Average[ms]')
+	data.addColumn('number', 'Min[ms]')
+	data.addColumn('number', 'Max[ms]')
+
+	# JSONデータから必要なデータを抽出し、変換
+	logs_data = ([new Date(i.date), i.avg, i.min, i.max] for i in json)
+	# 描画データに追加
+	data.addRows logs_data
+
+	chart = new google.visualization.LineChart document.getElementById 'ping_logs_chart'
+	chart.draw data,
+		title: 'Ping Response Time',
+		legend: 'bottom',
+		pointSize: 5
+
+# ライブラリのロードコールバックにセット
+google.setOnLoadCallback drawPingLogChart
