@@ -13,11 +13,9 @@ drawPingLogChart = () ->
 	data = new google.visualization.DataTable
 	data.addColumn('datetime', 'Time')
 	data.addColumn('number', 'Average[ms]')
-	data.addColumn('number', 'Min[ms]')
-	data.addColumn('number', 'Max[ms]')
 
 	# JSONデータから必要なデータを抽出し、変換
-	logs_data = ([new Date(i.date), i.avg, i.min, i.max] for i in json)
+	logs_data = ([new Date(i.date), i.avg] for i in json)
 	# 描画データに追加
 	data.addRows logs_data
 
@@ -25,7 +23,7 @@ drawPingLogChart = () ->
 	chart.draw data,
 		title: 'Ping Response Time',
 		legend: 'bottom',
-		pointSize: 5
+		pointSize: 0
 
 # ライブラリのロードコールバックにセット
 google.setOnLoadCallback drawPingLogChart

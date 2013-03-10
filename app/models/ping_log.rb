@@ -13,14 +13,10 @@ class PingLog < ActiveRecord::Base
   	presence: true
 
   # Scopes
-  scope :asc_by_date,
-  	lambda {
-  		order 'date ASC'
-  	}
-  scope :desc_by_date,
-  	lambda {
-  		order 'date DESC'
-  	}
+  scope :asc_by_date, lambda { order 'date ASC' }
+  scope :desc_by_date, lambda { order 'date DESC' }
+
+  scope :recent, lambda { |fixn| where('date >= ?', fixn.ago) }
 
   # Callback
   before_create :timestamp_date

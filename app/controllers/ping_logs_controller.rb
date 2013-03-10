@@ -5,6 +5,19 @@ class PingLogsController < ApplicationController
     @server = Server.find(params[:server_id])
     @ping_logs = @server.ping_logs.desc_by_date
 
+    case params[:recent]
+    when '1hour'
+      @ping_logs = @ping_logs.recent(1.hour)
+    when '1day'
+      @ping_logs = @ping_logs.recent(1.day)
+    when '1week'
+      @ping_logs = @ping_logs.recent(1.week)
+    when '1month'
+      @ping_logs = @ping_logs.recent(1.month)
+    else
+      @ping_logs = @ping_logs.recent(1.day)
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @ping_logs }
