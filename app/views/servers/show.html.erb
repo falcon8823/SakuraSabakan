@@ -1,9 +1,13 @@
 <div class="page-header">
-  <h2>
-    <%= @server.address %>の監視状況
-    <small>全サービスの監視状況を視覚的に確認できる画面</small>
-  </h2>
+  <h1>
+    サーバ監視状態
+    <small><%= @server.address %></small>
+  </h1>
 </div>
+<ul class="breadcrumb">
+  <li><%= link_to 'Dashboard', servers_path %> <span class="divider">/</span></li>
+  <li class="active"><%= @server.address %></li>
+</ul>
 <div class="row">
   <div class="span12">
     <%= link_to 'サーバ情報設定',
@@ -12,8 +16,8 @@
 </div>
 
 <div class="row">
-  <div class="span6 alert alert-success">
-    <h4>
+  <div class="span6">
+    <h4 class="alert alert-success">
     	<i class="icon-ok-sign"></i>
     	<%= link_to 'Ping', server_ping_logs_path(@server) %>
     </h4>
@@ -28,8 +32,8 @@
     <% end %>
   </div>
 
-  <div class="span6 alert">
-  	<h4>
+  <div class="span6">
+  	<h4 class="alert">
   		<i class="icon-exclamation-sign"></i>
   		<%= link_to 'HTTP/HTTPS', '#' %>
   	</h4>
@@ -38,8 +42,8 @@
 </div>
 
 <div class="row">
-  <div class="span6 alert alert-error">
-    <h4><i class="icon-minus-sign"></i>SSH</h4>
+  <div class="span6">
+    <h4 class="alert alert-error"><i class="icon-minus-sign"></i>SSH</h4>
     <p>Sample: 監視に失敗しました。サーバの動作を確認してください。</p>
   </div>
 

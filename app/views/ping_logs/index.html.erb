@@ -1,17 +1,21 @@
 <div class="page-header">
   <h1>
-    Ping監視ログ
-    <small>ping監視ログの一覧</small>
+    ping監視ログ一覧
+    <small>- <%= @server.address %></small>
   </h1>
 </div>
+<ul class="breadcrumb">
+  <li><%= link_to 'Dashboard', servers_path %> <span class="divider">/</span></li>
+  <li><%= link_to @server.address, @server %> <span class="divider">/</span></li>
+  <li class="active">ping</li>
+</ul>
 <%= javascript_tag do %>
-  var ping_logs_path = '<%= server_ping_logs_path @server %>';
+  var ping_logs_path = '<%= server_ping_logs_path @server, recent: params[:recent] %>';
 <% end %>
 <div id='ping_logs_chart' style='width: 100%'></div>
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>対象サーバ</th>
       <th>日時</th>
       <th>結果</th>
       <th>平均応答時間[ms]</th>
@@ -22,7 +26,6 @@
   <tbody>
     <% @ping_logs.each do |ping_log| %>
       <tr>
-        <td><%= link_to ping_log.server.address, ping_log.server %></td>
         <td><%= ping_log.date %></td>
         <td>
           <% case ping_log.status %>

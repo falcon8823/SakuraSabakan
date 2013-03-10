@@ -4,12 +4,17 @@
     <small>pingの詳細ログを表示する画面</small>
   </h1>
 </div>
-
+<ul class="breadcrumb">
+  <li><%= link_to 'Dashboard', servers_path %> <span class="divider">/</span></li>
+  <li><%= link_to @server.address, @server %> <span class="divider">/</span></li>
+  <li><%= link_to 'ping', server_ping_logs_path(@server) %> <span class="divider">/</span></li>
+  <li class="active">detail</li>
+</ul>
 <dl class="dl-horizontal">
   <dt><strong>監視日時:</strong></dt>
   <dd><%= @ping_log.date %></dd>
-  <dt><strong>対象サーバ:</strong></dt>
-  <dd><%= link_to @ping_log.server.address, @ping_log.server %></dd>
+  <dt><strong>対象サーバアドレス:</strong></dt>
+  <dd><%= @ping_log.server.address %></dd>
   <dt><strong>状態:</strong></dt>
 
   <dd>
