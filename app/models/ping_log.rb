@@ -17,6 +17,8 @@ class PingLog < ActiveRecord::Base
   scope :desc_by_date, lambda { order 'date DESC' }
 
   scope :recent, lambda { |fixn| where('date >= ?', fixn.ago) }
+  scope :success, lambda { where(status: 'Success') }
+  scope :failed, lambda { where(status: 'Failed') }
 
   # Callback
   before_create :timestamp_date

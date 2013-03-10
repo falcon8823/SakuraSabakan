@@ -22,6 +22,15 @@
     	<%= link_to 'Ping', server_ping_logs_path(@server) %>
     </h4>
     <% if @recent_ping_log %>
+      Status:
+      <% ping_rate = @server.recent_ping_rate %>
+      <% if ping_rate == 0 %>
+        <span class="label label-important"><%= ping_rate %>%</span>
+      <% elsif ping_rate < 100 %>
+        <span class="label label-warning"><%= ping_rate %>%</span>
+      <% else %>
+        <span class="label label-success"><%= ping_rate %>%</span>
+      <% end %>
       <p>Sample: 正常に動作しています。</p>
       <p>前回の平均応答時間: <%= @recent_ping_log.avg %>[ms]</p>
       <%= javascript_tag do %>
