@@ -27,7 +27,14 @@ class PingLogParser
       h
     else
       # ping失敗
-      raise 'Time parsing Exception'
+      # Hashに変換
+      h = Hash.new
+      h[:min] = 0
+      h[:avg] = 0
+      h[:max] = 0
+      h[:stddev] = 0
+
+      h
     end
   end
 
@@ -42,7 +49,12 @@ class PingLogParser
       h
     else
       # ping失敗
-      raise 'Statistics parsing Exception'
+      # Hashに変換
+      h = Hash.new
+      h[:transmitted] = 0
+      h[:received] = 0
+      h[:packet_loss] = 100
+      h
     end
   end
 end
