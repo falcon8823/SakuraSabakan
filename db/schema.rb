@@ -11,7 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130308131847) do
+ActiveRecord::Schema.define(:version => 20130313021249) do
+
+  create_table "httping_logs", :force => true do |t|
+    t.datetime "date"
+    t.integer  "server_id"
+    t.string   "status"
+    t.text     "detail"
+    t.float    "min"
+    t.float    "max"
+    t.float    "avg"
+    t.float    "failed_rate"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "ping_logs", :force => true do |t|
     t.datetime "date"
