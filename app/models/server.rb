@@ -17,12 +17,12 @@ class Server < ActiveRecord::Base
     ping_str = `ping -c 5 #{self.address}`
     # pingのログから情報を抽出
     parser = PingLogParser.new ping_str
-    time = parser.parse_time
+    rtt = parser.parse_rtt
     stat = parser.parse_stat
 
     # ログに記録
     ping_log = self.ping_logs.new
-    ping_log.attributes = time
+    ping_log.attributes = rtt
     ping_log.attributes = stat
     ping_log.ping_detail = ping_str
     ping_log.status = (stat[:packet_loss] > 0.0 ? 'Failed' : 'Success')

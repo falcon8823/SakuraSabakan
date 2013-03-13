@@ -2,20 +2,20 @@
 
 class PingLogParser
   # 抽出に使用する正規表現
-  TIME_REGEX = /^.*min\/avg\/max.*= (.*) ms$/
-    STAT_REGEX = /^(\d*).*transmitted, (\d*).*received, (.*)% packet loss.*$/
+  RTT_REGEX = /^.*min\/avg\/max.*= (.*) ms$/
+  STAT_REGEX = /^(\d*).*transmitted, (\d*).*received, (.*)% packet loss.*$/
 
     def initialize(ping_log)
       @ping_log = ping_log
     end
 
-  # ping時間の解析
-  def parse_time
-    if time_str =  @ping_log.scan(TIME_REGEX).first
+  # RTTの解析
+  def parse_rtt
+    if rtt_str =  @ping_log.scan(RTT_REGEX).first
       # ping成功
 
       # 各数値文字列を取り出して，数値型（浮動小数）に変換
-      arr = time_str.first.split(/\s*\/\s*/).map {|i| i.to_f }
+      arr = rtt_str.first.split(/\s*\/\s*/).map {|i| i.to_f }
 
       # Hashに変換
       h = Hash.new
