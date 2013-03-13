@@ -32,6 +32,13 @@ class Server < ActiveRecord::Base
     ping_log.save!
   end
 
+  # 最近1日間のpingの稼働率
+  def recent_ping_rate
+    logs = self.ping_logs.recent(1.day)
+    rate = logs.success.count.to_f / logs.count * 100
+    rate.round 1
+  end
+
   # httpの監視を実行
   def check_http
     # httping実行
@@ -51,9 +58,9 @@ class Server < ActiveRecord::Base
     log.save!
   end
 
-	# 最近1日間の稼働率
-  def recent_ping_rate
-    logs = self.ping_logs.recent(1.day)
+	# 最近1日間のHTTPの稼働率
+  def recent_http_rate
+    logs = self.httping_logs.recent(1.day)
     rate = logs.success.count.to_f / logs.count * 100
     rate.round 1
   end

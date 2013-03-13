@@ -15,6 +15,8 @@ class ServersController < ApplicationController
   def show
     @server = Server.find(params[:id])
     @recent_ping_log = @server.ping_logs.desc_by_date.first
+    @recent_httping_log = @server.httping_logs.desc_by_date.first
+
 
     respond_to do |format|
       format.html # show.html.erb

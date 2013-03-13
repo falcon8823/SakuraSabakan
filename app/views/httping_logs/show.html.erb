@@ -1,0 +1,40 @@
+<div class="page-header">
+  <h1>
+    詳細ログ
+  </h1>
+</div>
+<ul class="breadcrumb">
+  <li><%= link_to 'Dashboard', servers_path %> <span class="divider">/</span></li>
+  <li><%= link_to @server.address, @server %> <span class="divider">/</span></li>
+  <li><%= link_to 'HTTP', server_httping_logs_path(@server) %> <span class="divider">/</span></li>
+  <li class="active">detail</li>
+</ul>
+<dl class="dl-horizontal">
+  <dt><strong>監視日時:</strong></dt>
+  <dd><%= @httping_log.date %></dd>
+  <dt><strong>対象サーバアドレス:</strong></dt>
+  <dd><%= @httping_log.server.address %></dd>
+  <dt><strong>状態:</strong></dt>
+
+  <dd>
+    <% case @httping_log.status %>
+      <% when 'Success' %>
+        <span class="label label-success">Success</span>
+      <% when 'Failed' %>
+        <span class="label label-important">Failed</span>
+    <% end %>
+  </dd>
+  <dt><strong>応答時間(最小/平均/最大)[ms]:</strong></dt>
+  <dd><%= "#{@httping_log.min}/#{@httping_log.avg}/#{@httping_log.max}" %></dd>
+  <dt><strong>ロス[%]:</strong></dt>
+  <dd><%= @httping_log.failed_rate %></dd>
+  <dt><strong>httping実行ログ:</strong></dt>
+  <dd>
+    <pre><%= @httping_log.detail %></pre>
+  </dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              server_httping_logs_path(@server), :class => 'btn'  %>
+</div>

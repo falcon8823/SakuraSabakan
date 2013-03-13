@@ -3,5 +3,6 @@ ServerWatcher::Application.routes.draw do
 
   resources :servers do
     resources :ping_logs, only: [:index, :show, :destroy]
+    resources :httping_logs, only: [:index, :show, :destroy]
   end
 end

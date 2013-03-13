@@ -34,7 +34,7 @@
       <p>Sample: 正常に動作しています。</p>
       <p>前回の平均応答時間: <%= @recent_ping_log.avg %>[ms]</p>
       <%= javascript_tag do %>
-        var ping_logs_path = '<%= server_ping_logs_path @server %>';
+        var ping_logs_path = '<%= server_ping_logs_path @server %>.json';
       <% end %>
       <div id='ping_logs_chart' style='width: 100%'></div>
       <p>最終監視日時：<%= @recent_ping_log.date %></p>
@@ -44,9 +44,26 @@
   <div class="span6">
   	<h4 class="alert">
   		<i class="icon-exclamation-sign"></i>
-  		<%= link_to 'HTTP/HTTPS', '#' %>
+  		<%= link_to 'HTTP/HTTPS', server_httping_logs_path(@server) %>
   	</h4>
-  	<p>Sample: いくつかのエラーがあります。</p>
+    <% if @recent_httping_log %>
+      Status:
+      <% httping_rate = @server.recent_http_rate %>
+      <% if httping_rate == 0 %>
+        <span class="label label-important"><%= httping_rate %>%</span>
+      <% elsif httping_rate < 100 %>
+        <span class="label label-warning"><%= httping_rate %>%</span>
+      <% else %>
+        <span class="label label-success"><%= httping_rate %>%</span>
+      <% end %>
+      <p>Sample: 正常に動作しています。</p>
+      <p>前回の平均応答時間: <%= @recent_httping_log.avg %>[ms]</p>
+      <%= javascript_tag do %>
+        var httping_logs_path = '<%= server_httping_logs_path @server %>.json';
+      <% end %>
+      <div id='httping_logs_chart' style='width: 100%'></div>
+      <p>最終監視日時：<%= @recent_httping_log.date %></p>
+    <% end %>
   </div>
 </div>
 
@@ -55,7 +72,6 @@
     <h4 class="alert alert-error"><i class="icon-minus-sign"></i>SSH</h4>
     <p>Sample: 監視に失敗しました。サーバの動作を確認してください。</p>
   </div>
-
 </div>
 
 
