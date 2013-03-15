@@ -53,7 +53,7 @@ class Server < ActiveRecord::Base
     log.attributes = rtt
     log.attributes = stat
     log.detail = ping_str
-    log.status = (stat[:failed_rate] > 0.0 ? 'Failed' : 'Success')
+    log.status = parser.parse_status[:status]
 
     log.save!
   end
