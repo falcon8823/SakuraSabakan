@@ -42,7 +42,7 @@ class Server < ActiveRecord::Base
   # httpの監視を実行
   def check_http
     # httping実行
-    ping_str = `httping -c 5 #{self.address}`
+    ping_str = `httping -s -c 5 #{self.address}`
     # httpingのログから情報を抽出
     parser = HttpingLogParser.new ping_str
     rtt = parser.parse_rtt
