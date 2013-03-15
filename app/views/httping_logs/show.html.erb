@@ -18,10 +18,10 @@
 
   <dd>
     <% case @httping_log.status %>
-      <% when 'Success' %>
-        <span class="label label-success">Success</span>
-      <% when 'Failed' %>
-        <span class="label label-important">Failed</span>
+      <% when /^[1-3]/ %>
+        <span class="label label-success"><%= @httping_log.status %></span>
+      <% else %>
+        <span class="label label-important"><%= @httping_log.status %></span>
     <% end %>
   </dd>
   <dt><strong>応答時間(最小/平均/最大)[ms]:</strong></dt>

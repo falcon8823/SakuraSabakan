@@ -16,8 +16,8 @@ class HttpingLog < ActiveRecord::Base
   scope :desc_by_date, lambda { order 'date DESC' }
 
   scope :recent, lambda { |fixn| where('date >= ?', fixn.ago) }
-  scope :success, lambda { where(status: 'Success') }
-  scope :failed, lambda { where(status: 'Failed') }
+  scope :success, lambda { where('failed_rate = 0') }
+  scope :failed, lambda { where('failed_rate > 0') }
 
   # Callback
   before_create :timestamp_date

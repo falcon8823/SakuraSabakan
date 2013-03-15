@@ -26,7 +26,7 @@
       <% ping_rate = @server.recent_ping_rate %>
       <% if ping_rate == 0 %>
         <span class="label label-important"><%= ping_rate %>%</span>
-      <% elsif ping_rate < 100 %>
+      <% elsif ping_rate < 90 %>
         <span class="label label-warning"><%= ping_rate %>%</span>
       <% else %>
         <span class="label label-success"><%= ping_rate %>%</span>
