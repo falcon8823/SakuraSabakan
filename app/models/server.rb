@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 class Server < ActiveRecord::Base
   attr_accessible :address, :description
 
@@ -12,6 +14,7 @@ class Server < ActiveRecord::Base
     uniqueness: true,
     presence: true,
     length: {maximum: 30}
+  validate :address_valid?
 
   # pingの監視を実行
   def check_ping
@@ -63,5 +66,10 @@ class Server < ActiveRecord::Base
     logs = self.httping_logs.recent(1.day)
     rate = logs.success.count.to_f / logs.count * 100
     rate.round 1
+  end
+
+  private
+  def address_valid?
+    errors.add(:address, 'アドレスが不正な形式です。（日本語ドメインには非対応です）') unless self.address =~ /^[0-9A-Za-z-.]+$/
   end
 end
