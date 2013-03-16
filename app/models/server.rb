@@ -70,6 +70,6 @@ class Server < ActiveRecord::Base
 
   private
   def address_valid?
-    errors.add(:address, 'アドレスが不正な形式です。（日本語ドメインには非対応です）') unless self.address =~ /^[0-9A-Za-z-.]+$/
+    errors.add(:address, 'に不正な文字が含まれています。（日本語ドメインには非対応です）') unless self.address =~ /^[0-9A-Za-z-.]+$/
   end
 end

@@ -1,4 +1,14 @@
 <%= form_for @server, :html => { :class => 'form-horizontal' } do |f| %>
+  <% if @server.errors.any? %>
+    <div class="alert alert-block fade in alert-error">
+      <h4>エラー</h4>
+      <ul>
+        <% @server.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <div class="control-group">
     <%= f.label 'サーバアドレス', :class => 'control-label' %>
     <div class="controls">
