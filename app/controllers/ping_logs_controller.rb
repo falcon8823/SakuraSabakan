@@ -18,6 +18,12 @@ class PingLogsController < ApplicationController
       @ping_logs = @ping_logs.recent(1.day)
     end
 
+    @hour_logs = []
+    24.downto 1 do |i|
+      now = Time.now
+      @hour_logs << @server.ping_logs.desc_by_date.where('date >= ? AND date < ?', now.change(hour: i - 1), now.change(hour: i))
+    end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @ping_logs }

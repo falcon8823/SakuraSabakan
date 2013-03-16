@@ -1,0 +1,39 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>日時</th>
+      <th>結果</th>
+      <th>平均応答時間[ms]</th>
+      <th>パケットロス[%]</th>
+      <th><i class="icon-trash"></i></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% logs.each do |log| %>
+      <tr>
+        <td><%= l log.date, format: :short %></td>
+        <td>
+          <% case log.status %>
+            <% when 'Success' %>
+              <span class="label label-success">Success</span>
+            <% when 'Failed' %>
+              <span class="label label-important">Failed</span>
+          <% end %>
+          <%= link_to '詳細',
+            server_ping_log_path(@server, log),
+            :class => 'btn btn-mini btn-info' %>
+        </td>
+        <td><%= log.avg %></td>
+        <td><%= log.packet_loss %></td>
+        <td>
+
+          <%= link_to raw('<i class="icon-trash"></i>'),
+                      server_ping_log_path(@server, log),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
