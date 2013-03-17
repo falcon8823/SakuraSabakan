@@ -13,6 +13,11 @@ body {
 #logo {
   color: #333; }
 
+.about {
+text-align: center;
+margin-left: none;
+}
+
 .page {
   width: 980px;
   margin: auto;
