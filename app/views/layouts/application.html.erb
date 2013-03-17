@@ -36,42 +36,29 @@
     <script src='http://www.google.com/jsapi'></script>
   </head>
   <body>
+    <!-- 上部のナビゲーションバー -->
+    <%= render partial: 'common/top-nav' %>
 
-    <div class="navbar navbar-inverse navbar-top">
-      <div class="navbar-inner">
+    <!-- メニュー -->
+    <%= render partial: 'common/menu' %>
+
+    <!-- 本文 -->
+    <div class="page">
+      <div class="page-container">
         <div class="container">
-          <a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <%= link_to 'Server Watcher', root_path, class: 'brand' %>
-          <div class="container nav-collapse">
-            <ul class="nav">
-              <li><%= link_to "Dashboard", :servers  %></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
+          <div class="row">
+            <div class="span12">
+              <%= bootstrap_flash %>
+              <%= yield %>
+            </div>
+          </div><!--/row-->
+          <footer>
+            <p>&copy; Company 2013</p>
+          </footer>
+        </div><!-- /container -->
+      </div><!-- /page-container -->
+    </div><!-- /page -->
 
-    <div class="container">
-      <div class="row">
-        <div class="span12">
-          <%= bootstrap_flash %>
-          <%= yield %>
-        </div>
-      </div><!--/row-->
-
-      <footer>
-        <p>&copy; Company 2013</p>
-      </footer>
-
-    </div> <!-- /container -->
-
-    <!-- Javascripts
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <%= javascript_include_tag "application" %>
   </body>
 </html>
