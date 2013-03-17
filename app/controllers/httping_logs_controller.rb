@@ -31,7 +31,7 @@ class HttpingLogsController < ApplicationController
     @httping_log = @server.httping_logs.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :show, layout: false } # show.html.erb
       format.json { render json: @httping_log }
     end
   end

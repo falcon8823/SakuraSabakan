@@ -1,18 +1,6 @@
-<div class="page-header">
-  <h1>
-    詳細ログ
-    <small>pingの詳細ログを表示する画面</small>
-  </h1>
-</div>
-<ul class="breadcrumb">
-  <li><%= link_to 'Dashboard', servers_path %> <span class="divider">/</span></li>
-  <li><%= link_to @server.address, @server %> <span class="divider">/</span></li>
-  <li><%= link_to 'ping', server_ping_logs_path(@server) %> <span class="divider">/</span></li>
-  <li class="active">detail</li>
-</ul>
 <dl class="dl-horizontal">
   <dt><strong>監視日時:</strong></dt>
-  <dd><%= @ping_log.date %></dd>
+  <dd><%= l @ping_log.date %></dd>
   <dt><strong>対象サーバアドレス:</strong></dt>
   <dd><%= @ping_log.server.address %></dd>
   <dt><strong>状態:</strong></dt>
@@ -30,12 +18,7 @@
   <dt><strong>パケットロス[%]:</strong></dt>
   <dd><%= @ping_log.packet_loss %></dd>
   <dt><strong>ping実行ログ:</strong></dt>
-  <dd>
-    <pre><%= @ping_log.ping_detail %></pre>
-  </dd>
+  <br>
+  <pre><%= @ping_log.ping_detail %></pre>
 </dl>
 
-<div class="form-actions">
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              server_ping_logs_path(@server), :class => 'btn'  %>
-</div>

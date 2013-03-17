@@ -37,7 +37,7 @@ class PingLogsController < ApplicationController
     @ping_log = @server.ping_logs.find(params[:id])
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html { render :show, layout: false } # show.html.erb
       format.json { render json: @ping_log }
     end
   end

@@ -1,39 +1,56 @@
-<%- model_class = Server -%>
 <div class="page-header">
   <h1>
     Dashboard
-    <small>ユーザが登録した全サーバの状態を視覚的に確認できる画面</small>
   </h1>
 </div>
 <ul class="breadcrumb">
   <li class="active">Dashboard</li>
 </ul>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>サーバ</th>
-      <th>説明</th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @servers.each do |server| %>
-      <tr>
-        <td><%= link_to server.address, server_path(server) %></td>
-        <td><%= server.description %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+
+<%= javascript_tag do %>
+  var ping_logs_path = {};
+  var httping_logs_path = {};
+<% end %>
+<% @servers.each_slice 2 do |servers| %>
+  <div class="row">
+    <% servers.each do |server| %>
+    <div class="span6">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle alert-success" data-toggle="collapse" href="#server_<%= server.id %>">
+            <h4>
+              <i class="icon-ok-sign"></i>
+              <%= server.address %>
+            </h4>
+          </a>
+        </div>
+        <div id="server_<%= server.id %>" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <%= server.description %>
+                      <%= link_to '設定',
                       edit_server_path(server), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      server_path(server),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
-      </tr>
+
+            <%= render partial: 'services', locals: {server: server} %>
+          </div>
+        </div>
+      </div>
+    </div>
     <% end %>
-  </tbody>
-</table>
+  </div>
+<% end %>
+
+<!-- Modal -->
+<div id="pingDetailModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">詳細ログ</h3>
+  </div>
+  <div class="modal-body"></div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
 
 <%= link_to t('.new', :default => t("helpers.links.new")),
             new_server_path,
