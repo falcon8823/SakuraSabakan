@@ -14,8 +14,8 @@ body {
   color: #333; }
 
 .about {
-text-align: center;
-margin-left: none;
+  text-align: center;
+  margin-left: none;
 }
 
 .page {
@@ -224,10 +224,6 @@ footer {
     width: 96%; }
 
 /* ============== login ============== */
-.login {
-  padding: 20px;
-  margin-top: 40px;
-  margin-bottom: 80px; }
 
 /* ============== sidebar ============== */
 .sidebar {
@@ -305,21 +301,7 @@ ul.stat-list {
     overflow: hidden; }
 
 /* ============== sparks ============== */
-.spark {
-  margin-bottom: 20px; }
-  .spark h4 {
-    font-weight: 500; }
-  .spark h4.sub {
-    color: #999;
-    font-weight: 300; }
-    .spark h4.sub span.minus {
-      color: #ea494a;
-      float: right; }
-    .spark h4.sub span.plus {
-      color: #4cb158;
-      float: right; }
-  .spark .sparklines {
-    float: right; }
+
 
 /* ============== knobs ============== */
 .knob {
@@ -332,18 +314,6 @@ ul.stat-list {
   border-top: 1px solid #EEE; }
 
 /* ============== peity ============== */
-.peity {
-  margin-bottom: 20px; }
-  .peity canvas {
-    margin-right: 10px; }
-  .peity h4 {
-    display: inline-block;
-    font-weight: 600;
-    min-width: 30px;
-    margin: 0; }
-  .peity h4.sub {
-    font-weight: 300;
-    color: #999; }
 
 /* ============== panels ============== */
 .panel {
@@ -413,194 +383,15 @@ ul.stat-list {
         border: 1px solid darken($purple, 20%)*/ }
 
 /* ============== profile ============== */
-.stats {
-  text-align: center; }
-  .stats .stat {
-    background-color: #eeeeee;
-    color: #555555;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 20px;
-    text-align: center; }
-    .stats .stat h2 {
-      font-weight: 600; }
-    .stats .stat h6 {
-      margin-top: -10px; }
-  .stats .warning {
-    background-color: #ffa93c;
-    color: #FFF; }
-  .stats .success {
-    background-color: #4cb158;
-    color: #FFF; }
-  .stats .danger {
-    background-color: #ea494a;
-    color: #FFF; }
-  .stats .info {
-    background-color: #14b8d4;
-    color: #FFF; }
-  .stats .primary {
-    background-color: #007ccd;
-    color: #FFF; }
-  .stats .purple {
-    background-color: #7932ea;
-    color: #FFF; }
-  .stats .inverse {
-    background-color: #333;
-    color: #FFF; }
-
-.rating-star, .no-star, .half-star {
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-  background-image: url(../img/stars.png); }
-
-.no-star {
-  background-position: 0 -16px; }
-
-.half-star {
-  background-position: 0 -32px; }
-
-.profile-sidebar ul {
-  margin: 0;
-  margin-top: 20px; }
-  .profile-sidebar ul li {
-    list-style-type: none;
-    border-top: 1px solid #EEE;
-    padding: 10px 0px; }
-    .profile-sidebar ul li i {
-      margin-right: 5px; }
 
 /* ============== tables ============== */
-.tables code {
-  display: inline-block;
-  margin: 2px; }
 
 /* ============== stream ============== */
-.filters input[type="checkbox"] {
-  float: left;
-  margin-right: 10px; }
-.filters h5 {
-  margin-top: 20px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid #EEE; }
-.filters span {
-  color: #999; }
-
-.stream .item {
-  border-bottom: 1px solid #EEE;
-  padding: 10px 0px 30px 60px; }
-  .stream .item .stream-icon {
-    display: inline-block;
-    background-color: #CCC;
-    border-radius: 4px;
-    height: 40px;
-    width: 40px;
-    text-align: center;
-    margin-left: -40px;
-    margin-bottom: -40px;
-    position: relative;
-    top: 15px;
-    right: 20px;
-    float: left; }
-    .stream .item .stream-icon i {
-      margin-top: 12px; }
-  .stream .item .stream-success {
-    background-color: #4cb158; }
-  .stream .item .stream-danger {
-    background-color: #ea494a; }
-  .stream .item .stream-warning {
-    background-color: #ffa93c; }
-  .stream .item .stream-info {
-    background-color: #14b8d4; }
-  .stream .item .avatar {
-    border-radius: 4px;
-    margin-left: -40px;
-    margin-bottom: -40px;
-    height: 40px;
-    position: relative;
-    top: 15px;
-    right: 20px;
-    float: left; }
-  .stream .item h4 {
-    margin-bottom: 6px; }
-  .stream .item p {
-    color: #777; }
-  .stream .item p.date {
-    padding: 0;
-    float: right;
-    margin-top: 10px; }
 
 /* ============== faq ============== */
-.qa {
-  border-bottom: 1px solid #EEE;
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-  margin-top: 20px; }
-  .qa h4 {
-    text-transform: none;
-    font-weight: 400; }
 
 /* ============== calendar ============== */
-.event {
-  display: inline-block;
-  width: 100%;
-  margin-bottom: 10px;
-  border-top: 1px solid #EEE;
-  padding-top: 10px; }
-  .event p {
-    color: #999; }
-  .event h4 {
-    text-transform: none !important;
-    font-weight: 500;
-    color: #008dcd;
-    margin: 5px 0px; }
-  .event .date {
-    text-align: center;
-    display: inline-block;
-    border-left: 4px solid #EEE;
-    padding-left: 16px;
-    float: left;
-    margin-right: 20px; }
-    .event .date h1 {
-      font-weight: 500;
-      line-height: 0.8em; }
-    .event .date h4 {
-      line-height: 1em;
-      color: #555555;
-      font-weight: 300; }
-  .event .success {
-    border-color: #4cb158; }
-  .event .danger {
-    border-color: #ea494a; }
-  .event .info {
-    border-color: #14b8d4; }
-  .event .primary {
-    border-color: #007ccd; }
-  .event .warning {
-    border-color: #ffa93c; }
-  .event .purple {
-    border-color: #7932ea; }
-  .event .inverse {
-    border-color: #333; }
 
-#events .load-more {
-  text-align: center; }
-
-@media (min-width: 768px) {
-  #events {
-    overflow: auto;
-    height: 600px; } }
-#calendar h2 {
-  font-size: 17.5px; }
-#calendar th {
-  background-color: #EEE; }
-#calendar th, #calendar td {
-  border-color: #EEE; }
-#calendar .fc-event-skin {
-  background-color: #007ccd;
-  border: 1px solid #007ccd;
-  border-radius: 4px;
-  text-align: center; }
 
 /* ============== tags ============== */
 .tag {
@@ -617,5 +408,3 @@ ul.stat-list {
   text-decoration: none; }
 
 /* ============== settings ============== */
-.settings-group {
-  margin-top: 40px; }
