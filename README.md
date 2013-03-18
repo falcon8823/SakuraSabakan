@@ -1,4 +1,4 @@
-# さくらの鯖監
+# さくらの鯖缶
 ![logo](app/assets/images/logo/logo-large.png)
 
 <http://sabakan.falconsrv.net>
