@@ -1,4 +1,4 @@
-ServerWatcher::Application.routes.draw do
+SakuraSabakan::Application.routes.draw do
   devise_for :accounts
 
   root to: 'welcome#index'
