@@ -28,3 +28,7 @@ end
 
 # 末尾でrequireすること
 require "capistrano-unicorn"
+
+after 'deploy:start', 'unicorn:start'
+after 'deploy:restart', 'unicorn:restart'
+
