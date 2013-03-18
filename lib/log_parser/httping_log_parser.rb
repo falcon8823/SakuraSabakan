@@ -52,8 +52,10 @@ class HttpingLogParser
       # 数値的に最も高いステータスコードを返す
       h[:status] = arr.last
     else
-      h[:status] = ''
+      h[:status] = 'Failed'
     end
+
+    h[:status] = 'Failed' unless h[:status]
 
     h
   end
