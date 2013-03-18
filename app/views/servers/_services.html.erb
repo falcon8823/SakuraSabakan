@@ -1,27 +1,22 @@
-<% recent_ping_log = server.ping_logs.desc_by_date.first %>
-<% recent_httping_log = server.httping_logs.desc_by_date.first %>
+<% recent_ping_log = server.ping_logs.recent(1.day).desc_by_date.first %>
+<% recent_httping_log = server.httping_logs.recent(1.day).desc_by_date.first %>
+
 
 <div class="accordion-group">
   <div class="accordion-heading">
-    <a class="accordion-toggle alert-success" data-toggle="collapse" href="#ping_<%= server.id %>">
-        <i class="icon-ok-sign"></i>
-        <% ping_rate = server.recent_ping_rate %>
-        <% if ping_rate == 0 %>
-          <span class="label label-important"><%= ping_rate %>%</span>
-        <% elsif ping_rate < 90 %>
-          <span class="label label-warning"><%= ping_rate %>%</span>
-        <% else %>
-          <span class="label label-success"><%= ping_rate %>%</span>
-        <% end %>
+    <%= status_accordion_toggle_tag server.ping_status_before(1.day), "#ping_#{server.id}" do %>
+        <%= ping_status_icon_tag server %>
+        <%= ping_rate_tag server %>
         ping
-    </a>
+    <% end %>
   </div>
   <div id="ping_<%= server.id %>" class="accordion-body collapse">
     <div class="accordion-inner">
       <% if recent_ping_log %>
-        <p>Sample: 正常に動作しています。</p>
         <p>前回の平均応答時間: <%= recent_ping_log.avg %>[ms]</p>
         <p>前回の監視日時：<%= l recent_ping_log.date %></p>
+
+        <!-- グラフ -->
         <%= javascript_tag do %>
           ping_logs_path['<%= server.id %>'] = '<%= server_ping_logs_path server %>';
         <% end %>
@@ -33,25 +28,19 @@
 
 <div class="accordion-group">
   <div class="accordion-heading">
-    <a class="accordion-toggle alert-success" data-toggle="collapse" href="#http_<%= server.id %>">
-        <i class="icon-ok-sign"></i>
-        <% httping_rate = server.recent_http_rate %>
-        <% if httping_rate == 0 %>
-          <span class="label label-important"><%= httping_rate %>%</span>
-        <% elsif httping_rate < 90 %>
-          <span class="label label-warning"><%= httping_rate %>%</span>
-        <% else %>
-          <span class="label label-success"><%= httping_rate %>%</span>
-        <% end %>
-        HTTP
-    </a>
+    <%= status_accordion_toggle_tag server.http_status_before(1.day), "#http_#{server.id}" do %>
+      <%= http_status_icon_tag server %>
+      <%= http_rate_tag server %>
+      HTTP
+    <% end %>
   </div>
   <div id="http_<%= server.id %>" class="accordion-body collapse">
     <div class="accordion-inner">
       <% if recent_httping_log %>
-        <p>Sample: 正常に動作しています。</p>
         <p>前回の平均応答時間: <%= recent_httping_log.avg %>[ms]</p>
         <p>前回の監視日時：<%= l recent_httping_log.date %></p>
+
+        <!-- グラフ -->
         <%= javascript_tag do %>
           httping_logs_path['<%= server.id %>'] = '<%= server_httping_logs_path server %>';
         <% end %>

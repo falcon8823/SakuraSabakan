@@ -1,0 +1,8 @@
+<%= status_accordion_toggle_tag server.status_before(1.day), "#server_#{server.id}" do %>
+  <h4>
+    <%= server_status_icon_tag server %>
+
+    <%= server.address %>
+    - <%= server.description %>
+  </h4>
+<% end %>

@@ -35,12 +35,29 @@ class Server < ActiveRecord::Base
     ping_log.save!
   end
 
-  # 最近1日間のpingの稼働率
-  def recent_ping_rate
-    logs = self.ping_logs.recent(1.day)
+  # 最近のpingの稼働率
+  def recent_ping_rate(from)
+    logs = self.ping_logs.recent(from)
     rate = logs.success.count.to_f / logs.count * 100
     rate.round 1
   end
+
+  def ping_status_before(from)
+    if self.ping_logs.recent(from).count == 0
+      h = :no_log
+    elsif self.ping_logs.recent(from).asc_by_date.last.status == 'Failed'
+      h = :danger
+    elsif self.ping_logs.failed.recent(1.hour).count != 0
+      h = :waring
+    else
+      h = :success
+    end
+
+    return h
+  end
+
+
+
 
   # httpの監視を実行
   def check_http
@@ -62,10 +79,84 @@ class Server < ActiveRecord::Base
   end
 
 	# 最近1日間のHTTPの稼働率
-  def recent_http_rate
-    logs = self.httping_logs.recent(1.day)
+  def recent_http_rate(from)
+    logs = self.httping_logs.recent(from)
     rate = logs.success.count.to_f / logs.count * 100
     rate.round 1
+  end
+
+  def http_status_before(from)
+    if self.httping_logs.recent(from).count == 0
+      h = :no_log
+    elsif self.httping_logs.recent(from).asc_by_date.last.status !~ /^[1-3].*$/
+      h = :danger
+    elsif self.httping_logs.failed.recent(1.hour).count != 0
+      h = :waring
+    else
+      h = :success
+    end
+
+    return h
+  end
+
+
+
+  # 最近1日間サーバ（全サービス）の稼働率
+  def recent_rate(from)
+    service_rates = []
+    service_rates << recent_ping_rate(from)
+    service_rates << recent_http_rate(from)
+
+    rate = service_rates.inject{|sum, i| sum + i } / service_rates.count
+    rate.round 1
+  end
+
+  # 直前のログにエラーがいくつあるか
+  def count_errors_just_before
+    pings = self.ping_logs.recent(1.day).asc_by_date
+    https = self.httping_logs.recent(1.day).asc_by_date
+    res = []
+
+    res << (pings.last.status == 'Failed') if pings.last
+    res << (https.last.status !~ /^[1-3].*$/) if https.last
+
+    return res.count{|i| i }
+  end
+
+  # 最近の全エラー数
+  def count_errors_before(span)
+    res = []
+    res << self.ping_logs.recent(span).failed.count
+    res << self.httping_logs.recent(span).failed.count
+
+    return res.inject { |sum, i| sum + i }
+  end
+
+  # 監視ログがあるかどうか
+  def count_logs
+    res = []
+    res << self.ping_logs.recent(1.day).count
+    res << self.httping_logs.recent(1.day).count
+
+    return res.inject { |sum, i| sum + i }
+  end
+
+  def status_before(from)
+    if self.count_logs == 0
+      # ログが無ければブルー
+      alert = :no_log
+
+    elsif self.count_errors_just_before != 0
+      # 前回のログにエラーがある場合は警告
+      alert = :danger
+
+    elsif self.count_errors_before(1.hour) != 0
+      # 過去1時間にエラーがあれば注意
+      alert = :warning
+    else
+      # 何も無ければグリーン
+      alert = :success
+    end
   end
 
   private

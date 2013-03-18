@@ -21,7 +21,7 @@
       <div class="accordion-heading">
         <a class="accordion-toggle alert-success" data-toggle="collapse" href="#ping">
             <i class="icon-ok-sign"></i>
-            <% ping_rate = @server.recent_ping_rate %>
+            <% ping_rate = @server.recent_ping_rate(1.day) %>
             <% if ping_rate == 0 %>
               <span class="label label-important"><%= ping_rate %>%</span>
             <% elsif ping_rate < 90 %>
