@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-ServerWatcher::Application.load_tasks
+SakuraSabakan::Application.load_tasks

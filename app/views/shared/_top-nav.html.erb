@@ -1,0 +1,17 @@
+<div id="in-nav">
+  <div class="container">
+    <div class="row">
+      <div class="span4">
+        <!-- タイトルロゴ -->
+        <a id="logo" href="<%= root_path %>">
+          <%= image_tag 'logo/logo-brand.png', width: '200px' %>
+        </a>
+      </div>
+      <div class="span8">
+        <div class="pull-right">
+          <%= render partial: 'shared/inline-sign_in-form' %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

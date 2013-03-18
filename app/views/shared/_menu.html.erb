@@ -1,0 +1,63 @@
+<div id="in-sub-nav">
+  <div class="container">
+    <div class="row">
+      <div class="span12">
+        <!-- メニュー -->
+        <ul>
+          <% unless account_signed_in? %>
+            <li>
+              <a id="menu_home" href="<%= root_path %>">
+                <i class="batch home"></i>
+                <br>
+                Home
+              </a>
+            </li>
+            <li>
+              <a id="menu_sign_up" href="<%= new_account_registration_path %>">
+                <i class="batch plane"></i>
+                <br>
+                Sign up
+              </a>
+            </li>
+          <% end %>
+
+          <% if account_signed_in? %>
+            <li>
+              <a id="menu_dashboard" href="<%= servers_path %>">
+                <i class="batch stream"></i>
+                <br>
+                Dashboard
+              </a>
+            </li>
+
+            <li>
+              <a id="menu_new_server" href="<%= new_server_path %>">
+                <i class="batch stream"></i>
+                <br>
+                Add Server
+              </a>
+            </li>
+<!--
+            <li>
+              <a id="menu_messages" href="<%=  %>">
+                <i class="batch stream"></i>
+                <br>
+                Messages
+              </a>
+            </li>
+-->
+          <% end %>
+
+          <li>
+            <a id="menu_contact" href="<%= contact_path %>">
+              <i class="batch calendar"></i>
+              <br>
+              Contact
+            </a>
+          </li>
+        </ul>
+      <!-- /メニュー -->
+      </div><!-- /span12 -->
+    </div><!-- /row -->
+  </div><!-- /container -->
+</div><!-- /in-sub-nav -->
