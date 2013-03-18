@@ -1,13 +1,12 @@
 
 body {
   background-color: #f6f6f6;
-  font-family: Lato; }
+  font-family: serif; }
   body p {
     font-size: 0.9em; }
   body p.sub {
     color: #999; }
   body h1, body h2, body h3, body h4, body h5, body h6 {
-    text-transform: uppercase;
     font-weight: 300; }
 
 #logo {
@@ -56,7 +55,7 @@ body {
 #in-nav {
   background-color: white;
   background-repeat: repeat;
-  height: 50px;
+  /*height: 90px;*/
   padding-top: 10px; }
   #in-nav ul {
     position: relative;

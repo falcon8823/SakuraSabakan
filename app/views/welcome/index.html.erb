@@ -1,39 +1,56 @@
-			        <!-- トップ内容 -->
-			        <div class="span12"><div align="center"><img src="img/logo.png">
-<font color="gray"><h1>ここにキャッチフレーズ的な</h1></font></div></div>
-						<div class="about"><div class="span4">
-						            <h2><img align="middle" style="width: 100px; height: 100px;" src="img/about.png">What?</h2>
-									あなたはVPSの管理に困ったことはありませんか？
-									<br>
-									VPSは自分の好きなようにカスタマイズできる！
-									<br>
-									レンタルサーバではできないようなことをしたい！
-									<br>
-									でも実際は「これでうまくいってるのかな？」
-									<br>
-									と、不安になるときもあるでしょう。そんな時にはこの
-									<br>
-									VPS Watcherを是非お使いください！
-									<br>
-							<a class="btn" href="#"> Sign Up </a>
-						</div>
+<%= javascript_tag do %>
+  var active_menu_id = "home";
+<% end %>
 
-						<div class="span4">
-							<h2><img align="middle" style="width: 100px; height: 100px;" src="img/detail.png">In details</h2>
-							qwertyuiopasdfghjklzxcvbnm
-							<br>
-							1234567890
-							<br>
-							<a class="btn" href="#"> View details </a>
-						</div>
+<!-- トップ内容 -->
+<div class="row">
+  <div class="span12">
+    <div align="center">
+      <%= image_tag 'logo/logo-circle.png', width: '500px' %>
 
-						<div class="span3">
-							<h2><img align="middle" style="width: 100px; height: 100px;" src="img/contact.png">Free!</h2>
-									qwertyuiopasdfghjklzxcvbnm
-									<br>
-									1234567890
-									<br>
-							<a class="btn" href="#"> Contacts >></a>
-						</div>
+      <font color="gray">
+        <h2>
+          おやすみからおはようの間も、鯖を見つめ続けるさくらの鯖監です！
+        </h2>
+      </font>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="span4">
+    <div class="about">
+      <h2>What?</h2>
+    </div>
+    <p>
+      「さくらの鯖監」は、「サーバ監視サービス」です。
+      24時間365日あなたのサーバを監視することができます。
+    </p>
+
+
+  </div>
+
+  <div class="span4">
+    <div class="about">
+      <h2>Easy!</h2>
+    </div>
+    <p>
+      複雑なサーバ監視ツールには、もうこりごりではありませんか？
+      「さくらの鯖監」は、複雑な機能を排除し、シンプルで使いやすいサービスを目指して設計されています。
+      各種サービス(ping, HTTP)の死活監視とメール通知機能を提供しています。
+    </p>
+  </div>
+
+  <div class="span4">
+    <div class="about">
+      <h2>Free!</h2>
+    </div>
+    <p>
+      さっそく、「さくらの鯖監」にサインアップして体験してみてください。
+      「さくらの鯖監」の利用料は0円です。
+    </p>
+    <%= link_to 'Sign up >>', new_account_registration_path, class: 'btn btn-info pull-right' %>
+  </div>
 </div>
 						<!-- /トップ内容 -->
