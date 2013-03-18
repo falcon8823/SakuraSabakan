@@ -3,3 +3,9 @@
  *= require_self
  *= require_tree .
  */
+
+.alert-warning {
+  color: #c09853;
+  background-color: #fcf8e3;
+  border-color: #fbeed5;
+}
