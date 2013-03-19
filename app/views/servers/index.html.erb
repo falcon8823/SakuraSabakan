@@ -6,9 +6,6 @@
     Dashboard
   </h1>
 </div>
-<ul class="breadcrumb">
-  <li class="active">Dashboard</li>
-</ul>
 
 <%= javascript_tag do %>
   var ping_logs_path = {};
@@ -31,7 +28,10 @@
         </div>
         <div id="server_<%= server.id %>" class="accordion-body collapse">
           <div class="accordion-inner">
-              <%= link_to '設定', edit_server_path(server), :class => 'btn btn-mini' %>
+            <% if account_signed_in? %>
+              <%= link_to icon_tag('icon-cog') + '設定',
+                edit_server_path(server), :class => 'btn btn-mini' %>
+            <% end %>
               <%= render partial: 'services', locals: {server: server} %>
 
           </div>
@@ -54,7 +54,8 @@
   </div>
 </div>
 
-
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_server_path,
-            :class => 'btn btn-primary' %>
+<hr>
+<% if account_signed_in? %>
+  <%= link_to content_tag(:i, '', class: 'icon-white icon-plus') + 'サーバを追加',
+    new_server_path, :class => 'btn btn-primary' %>
+<% end %>
