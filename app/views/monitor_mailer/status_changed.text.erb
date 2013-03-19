@@ -1,0 +1,28 @@
+<%= @server.address %> 管理者 様
+
+サーバ監視の結果、監視結果に変化がありました。
+
+--------------------------------------------------
+
+【対象サーバ】 <%= @server.address %>
+【サーバ状態】 <%= @server_status %>
+
+【各サービスの状態】
+ping: <%= MonitorMailer::STATUS_MSG[@server.ping_status_before(1.day)] %>
+http: <%= MonitorMailer::STATUS_MSG[@server.http_status_before(1.day)] %>
+
+
+監視詳細は下記のURLにアクセスしてください。
+<%= servers_url %>
+
+--------------------------------------------------
+
+【各状態の判定基準】
+×異常： 今回の監視結果が異常である状態
+△注意： 過去1時間に異常があった状態
+○正常： 過去1時間に異常がない状態
+
+
+--
+さくらの鯖缶
+<%= root_url %>
