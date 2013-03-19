@@ -3,24 +3,11 @@ class HttpingLogsController < ApplicationController
   # GET /servers/1/httping_logs.json
   def index
     @server = Server.find(params[:server_id])
-    @httping_logs = @server.httping_logs.desc_by_date
-
-    case params[:recent]
-    when '1hour'
-      @httping_logs = @httping_logs.recent(1.hour)
-    when '1day'
-      @httping_logs = @httping_logs.recent(1.day)
-    when '1week'
-      @httping_logs = @httping_logs.recent(1.week)
-    when '1month'
-      @httping_logs = @httping_logs.recent(1.month)
-    else
-      @httping_logs = @httping_logs.recent(1.day)
-    end
+    @httping_logs = @server.httping_logs.desc_by_date.recent(RECENT[params[:recent]])
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @httping_logs }
+      format.json { render json: @httping_logs.as_json(only: [:id, :date, :avg]) }
     end
   end
 
@@ -32,7 +19,7 @@ class HttpingLogsController < ApplicationController
 
     respond_to do |format|
       format.html { render :show, layout: false } # show.html.erb
-      format.json { render json: @httping_log }
+      format.json { render json: @httping_log  }
     end
   end
 

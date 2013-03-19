@@ -3,20 +3,8 @@ class PingLogsController < ApplicationController
   # GET /servers/1/ping_logs.json
   def index
     @server = Server.find(params[:server_id])
-    @ping_logs = @server.ping_logs.desc_by_date
 
-    case params[:recent]
-    when '1hour'
-      @ping_logs = @ping_logs.recent(1.hour)
-    when '1day'
-      @ping_logs = @ping_logs.recent(1.day)
-    when '1week'
-      @ping_logs = @ping_logs.recent(1.week)
-    when '1month'
-      @ping_logs = @ping_logs.recent(1.month)
-    else
-      @ping_logs = @ping_logs.recent(1.day)
-    end
+    @ping_logs = @server.ping_logs.desc_by_date.recent(RECENT[params[:recent]])
 
     @hour_logs = []
     24.downto 1 do |i|
@@ -26,7 +14,9 @@ class PingLogsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @ping_logs }
+      format.json {
+        render json: @ping_logs.as_json(only: [:id, :date, :avg])
+      }
     end
   end
 
