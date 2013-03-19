@@ -9,13 +9,13 @@
       </ul>
     </div>
   <% end %>
-  <div class="control-group">
+  <div class="control-group <%= 'error' unless @server.errors[:address].blank? %>">
     <%= f.label 'サーバアドレス', :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :address, :class => 'text_field' %>
     </div>
   </div>
-  <div class="control-group">
+  <div class="control-group <%= 'error' unless @server.errors[:description].blank? %>">
     <%= f.label '説明', :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :description, :class => 'text_field' %>

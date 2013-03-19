@@ -20,5 +20,6 @@
     <%= f.submit "サインイン", class: 'btn btn-primary' %>
   <% end %>
 <% else %>
-  <%= link_to 'サインアウト', destroy_account_session_path, method: :delete, class: 'btn btn-primary' %>
+  <%= link_to icon_tag('icon-white icon-off') + 'サインアウト',
+    destroy_account_session_path, method: :delete, class: 'btn btn-primary' %>
 <% end %>

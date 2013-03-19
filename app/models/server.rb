@@ -4,6 +4,8 @@ class Server < ActiveRecord::Base
   attr_accessible :address, :description
 
   # Relation Ship
+  belongs_to :account
+
   has_many :ping_logs,
     dependent: :delete_all
   has_many :httping_logs,
@@ -15,6 +17,11 @@ class Server < ActiveRecord::Base
     presence: true,
     length: {maximum: 30}
   validate :address_valid?
+
+  validates :account_id,
+    presence: true,
+    numericality: :only_integer
+
 
   # pingの監視を実行
   def check_ping

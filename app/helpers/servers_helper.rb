@@ -39,7 +39,7 @@ module ServersHelper
   def ping_status_icon_tag(server)
     status = server.ping_status_before 1.day
 
-    content_tag :i, '', class: "icon-#{ICON[status]}"
+    icon_tag "icon-#{ICON[status]}"
   end
 
   # httpの稼働率の色つきタグ
@@ -54,12 +54,12 @@ module ServersHelper
   def http_status_icon_tag(server)
     status = server.http_status_before 1.day
 
-    content_tag :i, '', class: "icon-#{ICON[status]}"
+    icon_tag "icon-#{ICON[status]}"
   end
 
   def server_status_icon_tag(server)
     status = server.status_before 1.day
 
-    content_tag :i, '', class: "icon-#{ICON[status]}"
+    icon_tag "icon-#{ICON[status]}"
   end
 end

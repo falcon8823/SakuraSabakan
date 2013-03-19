@@ -7,14 +7,14 @@
           <% unless account_signed_in? %>
             <li>
               <a id="menu_home" href="<%= root_path %>">
-                <i class="batch home"></i>
+                <%= icon_tag "icon-white icon-home" %>
                 <br>
                 Home
               </a>
             </li>
             <li>
               <a id="menu_sign_up" href="<%= new_account_registration_path %>">
-                <i class="batch plane"></i>
+                <%= icon_tag "icon-white icon-ok" %>
                 <br>
                 Sign up
               </a>
@@ -24,7 +24,7 @@
           <% if account_signed_in? %>
             <li>
               <a id="menu_dashboard" href="<%= servers_path %>">
-                <i class="batch stream"></i>
+                <%= icon_tag "icon-white icon-list-alt" %>
                 <br>
                 Dashboard
               </a>
@@ -32,25 +32,25 @@
 
             <li>
               <a id="menu_new_server" href="<%= new_server_path %>">
-                <i class="batch stream"></i>
+                <%= icon_tag "icon-white icon-plus" %>
                 <br>
                 Add Server
               </a>
             </li>
-<!--
+
             <li>
-              <a id="menu_messages" href="<%=  %>">
-                <i class="batch stream"></i>
+              <a id="menu_account" href="<%= edit_account_registration_path %>">
+                <%= icon_tag "icon-white icon-user" %>
                 <br>
-                Messages
+                Account
               </a>
             </li>
--->
+
           <% end %>
 
           <li>
             <a id="menu_contact" href="<%= contact_path %>">
-              <i class="batch calendar"></i>
+              <%= icon_tag "icon-white icon-envelope" %>
               <br>
               Contact
             </a>

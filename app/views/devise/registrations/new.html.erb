@@ -10,21 +10,21 @@
   :html => { :class => 'form-horizontal' }) do |f| %>
   <%= devise_error_messages! %>
 
-  <div class="control-group">
+  <div class="control-group <%= 'error' unless resource.errors[:email].blank? %>">
     <%= f.label 'メールアドレス', class: 'control-label' %>
     <div class="controls">
       <%= f.email_field :email, :autofocus => true, class: 'text_field' %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="control-group <%= 'error' unless resource.errors[:password].blank? %>">
     <%= f.label 'パスワード', class: 'control-label' %>
     <div class="controls">
       <%= f.password_field :password, class: 'text_field' %>
     </div>
   </div>
 
-  <div class="control-group">
+  <div class="control-group <%= 'error' unless resource.errors[:password_confirmation].blank? %>">
     <%= f.label 'パスワードの確認', class: 'control-label' %>
     <div class="controls">
       <%= f.password_field :password_confirmation, class: 'text_field' %>
