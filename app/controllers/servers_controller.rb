@@ -1,6 +1,9 @@
 # encoding: utf-8
 
 class ServersController < ApplicationController
+  before_filter :authenticate_account!,
+    except: [:index, :show]
+
   # GET /servers
   # GET /servers.json
   def index
@@ -28,7 +31,7 @@ class ServersController < ApplicationController
   # GET /servers/new
   # GET /servers/new.json
   def new
-    @server = Server.new
+    @server = current_account.servers.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -38,13 +41,13 @@ class ServersController < ApplicationController
 
   # GET /servers/1/edit
   def edit
-    @server = Server.find(params[:id])
+    @server = current_account.servers.find(params[:id])
   end
 
   # POST /servers
   # POST /servers.json
   def create
-    @server = Server.new(params[:server])
+    @server = current_account.servers.new(params[:server])
 
     respond_to do |format|
       if @server.save
@@ -60,7 +63,7 @@ class ServersController < ApplicationController
   # PUT /servers/1
   # PUT /servers/1.json
   def update
-    @server = Server.find(params[:id])
+    @server = current_account.servers.find(params[:id])
 
     respond_to do |format|
       if @server.update_attributes(params[:server])
@@ -76,7 +79,7 @@ class ServersController < ApplicationController
   # DELETE /servers/1
   # DELETE /servers/1.json
   def destroy
-    @server = Server.find(params[:id])
+    @server = current_account.servers.find(params[:id])
     @server.destroy
 
     respond_to do |format|
