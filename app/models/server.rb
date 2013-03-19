@@ -22,6 +22,33 @@ class Server < ActiveRecord::Base
     presence: true,
     numericality: :only_integer
 
+  # 監視を実行
+  def check
+    # 前回の監視状態
+    before_status = {}
+    before_status[:ping] = ping_status_before 1.day
+    before_status[:http] = http_status_before 1.day
+
+    # 監視を実行
+    self.check_ping
+    self.check_http
+
+    # 今回の監視状態
+    after_status = {}
+    after_status[:ping] = ping_status_before 1.day
+    after_status[:http] = http_status_before 1.day
+
+    notice = false
+    after_status.each do |k, v|
+      # 監視結果が前回と変わった場合
+      unless before_status[k] == v
+        notice = true
+      end
+    end
+
+    # 監視結果が変わった場合メール通知
+    MonitorMailer.status_changed(self).deliver if notice
+  end
 
   # pingの監視を実行
   def check_ping
@@ -37,9 +64,12 @@ class Server < ActiveRecord::Base
     ping_log.attributes = rtt
     ping_log.attributes = stat
     ping_log.ping_detail = ping_str
-    ping_log.status = (stat[:packet_loss] > 0.0 ? 'Failed' : 'Success')
+    # ロス率80%以上でエラー
+    ping_log.status = (stat[:packet_loss] >= 80.0 ? 'Failed' : 'Success')
 
     ping_log.save!
+
+    return ping_logs
   end
 
   # 最近のpingの稼働率
@@ -83,6 +113,8 @@ class Server < ActiveRecord::Base
     log.status = parser.parse_status[:status]
 
     log.save!
+
+    return log
   end
 
 	# 最近1日間のHTTPの稼働率
