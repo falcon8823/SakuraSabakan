@@ -44,7 +44,7 @@ class HttpingLogsController < ApplicationController
     @httping_log.destroy
 
     respond_to do |format|
-      format.html { redirect_to server_httping_logs_path(@server) }
+      format.html { redirect_to servers_path }
       format.json { head :no_content }
     end
   end
