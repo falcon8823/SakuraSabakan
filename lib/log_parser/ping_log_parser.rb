@@ -18,23 +18,10 @@ class PingLogParser
       arr = rtt_str.first.split(/\s*\/\s*/).map {|i| i.to_f }
 
       # Hashに変換
-      h = Hash.new
-      h[:min] = arr[0]
-      h[:avg] = arr[1]
-      h[:max] = arr[2]
-      h[:stddev] = arr[3]
-
-      h
+      return {min: arr[0], avg: arr[1], max: arr[2], stddev: arr[3]}
     else
       # ping失敗
-      # Hashに変換
-      h = Hash.new
-      h[:min] = 0
-      h[:avg] = 0
-      h[:max] = 0
-      h[:stddev] = 0
-
-      h
+      return {min: 0, avg: 0, max: 0, stddev: 0}
     end
   end
 
@@ -42,19 +29,14 @@ class PingLogParser
   def parse_stat
     if arr = @ping_log.scan(STAT_REGEX).first
       # Hashに変換
-      h = Hash.new
-      h[:transmitted] = arr[0].to_i
-      h[:received] = arr[1].to_i
-      h[:packet_loss] = arr[2].to_f
-      h
+      return {
+        transmitted: arr[0].to_i,
+        received: arr[1].to_i,
+        packet_loss: arr[2].to_f
+      }
     else
       # ping失敗
-      # Hashに変換
-      h = Hash.new
-      h[:transmitted] = 0
-      h[:received] = 0
-      h[:packet_loss] = 100
-      h
+      return {transmitted: 0, received: 0, packet_loss: 100.0}
     end
   end
 end
