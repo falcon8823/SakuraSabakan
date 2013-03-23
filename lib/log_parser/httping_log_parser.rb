@@ -9,7 +9,7 @@ class HttpingLogParser
   end
 
   # RTTの解析
-  def parse_rtt
+  def rtt
     h = Hash.new
 
     if rtt_str =  @raw_log.scan(RTT_REGEX).first
@@ -33,7 +33,7 @@ class HttpingLogParser
   end
 
   # httping結果の解析
-  def parse_stat
+  def stat
     h = Hash.new
 
     h[:failed_rate] = (arr = @raw_log.scan(STAT_REGEX).first) ? arr[0].to_f : 100
@@ -42,7 +42,7 @@ class HttpingLogParser
   end
 
   # statusコードの解析
-  def parse_status
+  def status
     h = Hash.new
 
     if arr = @raw_log.scan(STATUS_REGEX).flatten

@@ -56,8 +56,8 @@ class Server < ActiveRecord::Base
     ping_str = `ping -c 5 #{self.address}`
     # pingのログから情報を抽出
     parser = PingLogParser.new ping_str
-    rtt = parser.parse_rtt
-    stat = parser.parse_stat
+    rtt = parser.rtt
+    stat = parser.stat
 
     # ログに記録
     ping_log = self.ping_logs.new
@@ -102,15 +102,15 @@ class Server < ActiveRecord::Base
     ping_str = `httping -s -c 5 #{self.address}`
     # httpingのログから情報を抽出
     parser = HttpingLogParser.new ping_str
-    rtt = parser.parse_rtt
-    stat = parser.parse_stat
+    rtt = parser.rtt
+    stat = parser.stat
 
     # ログに記録
     log = self.httping_logs.new
     log.attributes = rtt
     log.attributes = stat
     log.detail = ping_str
-    log.status = parser.parse_status[:status]
+    log.status = parser.status[:status]
 
     log.save!
 

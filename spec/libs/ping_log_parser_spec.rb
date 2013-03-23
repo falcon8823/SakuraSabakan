@@ -21,15 +21,15 @@ round-trip min/avg/max/stddev = 18.750/37.468/71.339/19.484 ms
       EOF
     }
 
-    describe '#parse_rtt' do
+    describe '#rtt' do
       it "returns parsed RTT of log" do
-        subject.parse_rtt.should == {min: 18.750, avg: 37.468, max: 71.339, stddev: 19.484}
+        subject.rtt.should == {min: 18.750, avg: 37.468, max: 71.339, stddev: 19.484}
       end
     end
 
-    describe '#parse_stat' do
+    describe '#stat' do
       it "returns parsed statistics of log" do
-        subject.parse_stat.should == {transmitted: 5, received: 5, packet_loss: 0.0}
+        subject.stat.should == {transmitted: 5, received: 5, packet_loss: 0.0}
       end
     end
   end
@@ -51,15 +51,15 @@ round-trip min/avg/max/stddev = 53.895/53.895/53.895/0.000 ms
       EOF
     }
 
-    describe '#parse_rtt' do
+    describe '#rtt' do
       it "returns parsed RTT of log" do
-        subject.parse_rtt.should == {min: 53.895, avg: 53.895, max: 53.895, stddev: 0.000}
+        subject.rtt.should == {min: 53.895, avg: 53.895, max: 53.895, stddev: 0.000}
       end
     end
 
-    describe '#parse_stat' do
+    describe '#stat' do
       it "returns parsed statistics of log" do
-        subject.parse_stat.should == {transmitted: 5, received: 1, packet_loss: 80.0}
+        subject.stat.should == {transmitted: 5, received: 1, packet_loss: 80.0}
       end
     end
   end
@@ -71,15 +71,15 @@ round-trip min/avg/max/stddev = 53.895/53.895/53.895/0.000 ms
       ""
     }
 
-    describe '#parse_rtt' do
+    describe '#rtt' do
       it "returns parsed RTT of log" do
-        subject.parse_rtt.should == {min: 0.0, avg: 0.0, max: 0.0, stddev: 0.0}
+        subject.rtt.should == {min: 0.0, avg: 0.0, max: 0.0, stddev: 0.0}
       end
     end
 
-    describe '#parse_stat' do
+    describe '#stat' do
       it "returns parsed statistics of log" do
-        subject.parse_stat.should == {transmitted: 0, received: 0, packet_loss: 100.0}
+        subject.stat.should == {transmitted: 0, received: 0, packet_loss: 100.0}
       end
     end
   end

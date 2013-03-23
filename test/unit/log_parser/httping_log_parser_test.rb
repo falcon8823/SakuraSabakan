@@ -5,7 +5,7 @@ class HttpingLogParserTest < ActiveSupport::TestCase
     raw_log = `httping -c 5 -s http://www.google.co.jp`
     parser = HttpingLogParser.new raw_log
 
-    h = parser.parse_status
+    h = parser.status
     assert_equal h[:status], '200'
   end
 end

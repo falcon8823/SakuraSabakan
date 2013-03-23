@@ -10,7 +10,7 @@ class PingLogParser
     end
 
   # RTTの解析
-  def parse_rtt
+  def rtt
     if rtt_str =  @ping_log.scan(RTT_REGEX).first
       # ping成功
 
@@ -26,7 +26,7 @@ class PingLogParser
   end
 
   # ping結果の解析
-  def parse_stat
+  def stat
     if arr = @ping_log.scan(STAT_REGEX).first
       # Hashに変換
       return {
