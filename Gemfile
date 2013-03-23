@@ -26,7 +26,7 @@ group :development do
 	gem 'meta_request'
 end
 
-group :development do
+group :development, :test do
   gem 'rspec-rails'
 end
 
