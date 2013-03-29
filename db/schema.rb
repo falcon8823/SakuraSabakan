@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329095113) do
+ActiveRecord::Schema.define(:version => 20130329105014) do
 
   create_table "accounts", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -33,7 +33,6 @@ ActiveRecord::Schema.define(:version => 20130329095113) do
 
   create_table "http_logs", :force => true do |t|
     t.datetime "date"
-    t.integer  "server_id"
     t.string   "status"
     t.text     "detail"
     t.float    "min"
@@ -42,11 +41,11 @@ ActiveRecord::Schema.define(:version => 20130329095113) do
     t.float    "failed_rate"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.integer  "service_id"
   end
 
   create_table "ping_logs", :force => true do |t|
     t.datetime "date"
-    t.integer  "server_id"
     t.string   "status"
     t.text     "ping_detail"
     t.datetime "created_at",  :null => false
@@ -58,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20130329095113) do
     t.integer  "transmitted"
     t.integer  "received"
     t.float    "packet_loss"
+    t.integer  "service_id"
   end
 
   create_table "servers", :force => true do |t|
@@ -66,6 +66,13 @@ ActiveRecord::Schema.define(:version => 20130329095113) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "account_id"
+  end
+
+  create_table "services", :force => true do |t|
+    t.string   "type"
+    t.integer  "server_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end
