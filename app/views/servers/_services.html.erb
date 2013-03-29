@@ -1,5 +1,5 @@
 <% recent_ping_log = server.ping_logs.recent(1.day).desc_by_date.first %>
-<% recent_httping_log = server.httping_logs.recent(1.day).desc_by_date.first %>
+<% recent_http_log = server.http_logs.recent(1.day).desc_by_date.first %>
 
 
 <div class="accordion-group">
@@ -36,13 +36,13 @@
   </div>
   <div id="http_<%= server.id %>" class="accordion-body collapse">
     <div class="accordion-inner">
-      <% if recent_httping_log %>
-        <p>前回の平均応答時間: <%= recent_httping_log.avg %>[ms]</p>
-        <p>前回の監視日時：<%= l recent_httping_log.date %></p>
+      <% if recent_http_log %>
+        <p>前回の平均応答時間: <%= recent_http_log.avg %>[ms]</p>
+        <p>前回の監視日時：<%= l recent_http_log.date %></p>
 
         <!-- グラフ -->
         <%= javascript_tag do %>
-          httping_logs_path['<%= server.id %>'] = '<%= server_httping_logs_path server %>';
+          http_logs_path['<%= server.id %>'] = '<%= server_http_logs_path server %>';
         <% end %>
         <div id='chart_http_<%= server.id %>' style='width: 100%'></div>
       <% end %>

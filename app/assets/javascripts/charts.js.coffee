@@ -82,8 +82,8 @@ serverHttpChart = (server_id, json_path) ->
 
 
 httpChart = () ->
-	for key of httping_logs_path
-		serverHttpChart key, httping_logs_path[key]
+	for key of http_logs_path
+		serverHttpChart key, http_logs_path[key]
 
 drawAll = () ->
 	httpChart()

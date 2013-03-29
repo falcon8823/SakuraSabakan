@@ -1,4 +1,4 @@
-class HttpingLog < ActiveRecord::Base
+class HttpLog < ActiveRecord::Base
   attr_accessible :avg, :date, :detail,
     :failed_rate, :max, :min, :server_id, :status
 

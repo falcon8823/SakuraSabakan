@@ -8,7 +8,7 @@ class Server < ActiveRecord::Base
 
   has_many :ping_logs,
     dependent: :delete_all
-  has_many :httping_logs,
+  has_many :http_logs,
     dependent: :delete_all
 
   # Validations
@@ -98,15 +98,15 @@ class Server < ActiveRecord::Base
 
   # httpの監視を実行
   def check_http
-    # httping実行
-    ping_str = `httping -s -c 5 #{self.address}`
-    # httpingのログから情報を抽出
+    # http実行
+    ping_str = `http -s -c 5 #{self.address}`
+    # httpのログから情報を抽出
     parser = HttpingLogParser.new ping_str
     rtt = parser.rtt
     stat = parser.stat
 
     # ログに記録
-    log = self.httping_logs.new
+    log = self.http_logs.new
     log.attributes = rtt
     log.attributes = stat
     log.detail = ping_str
@@ -119,17 +119,17 @@ class Server < ActiveRecord::Base
 
 	# 最近1日間のHTTPの稼働率
   def recent_http_rate(from)
-    logs = self.httping_logs.recent(from)
+    logs = self.http_logs.recent(from)
     rate = logs.success.count.to_f / logs.count * 100
     rate.round 1
   end
 
   def http_status_before(from)
-    if self.httping_logs.recent(from).count == 0
+    if self.http_logs.recent(from).count == 0
       h = :no_log
-    elsif self.httping_logs.recent(from).asc_by_date.last.status !~ /^[1-3].*$/
+    elsif self.http_logs.recent(from).asc_by_date.last.status !~ /^[1-3].*$/
       h = :danger
-    elsif self.httping_logs.failed.recent(1.hour).count != 0
+    elsif self.http_logs.failed.recent(1.hour).count != 0
       h = :waring
     else
       h = :success
@@ -153,7 +153,7 @@ class Server < ActiveRecord::Base
   # 直前のログにエラーがいくつあるか
   def count_errors_just_before
     pings = self.ping_logs.recent(1.day).asc_by_date
-    https = self.httping_logs.recent(1.day).asc_by_date
+    https = self.http_logs.recent(1.day).asc_by_date
     res = []
 
     res << (pings.last.status == 'Failed') if pings.last
@@ -166,7 +166,7 @@ class Server < ActiveRecord::Base
   def count_errors_before(span)
     res = []
     res << self.ping_logs.recent(span).failed.count
-    res << self.httping_logs.recent(span).failed.count
+    res << self.http_logs.recent(span).failed.count
 
     return res.inject { |sum, i| sum + i }
   end
@@ -175,7 +175,7 @@ class Server < ActiveRecord::Base
   def count_logs
     res = []
     res << self.ping_logs.recent(1.day).count
-    res << self.httping_logs.recent(1.day).count
+    res << self.http_logs.recent(1.day).count
 
     return res.inject { |sum, i| sum + i }
   end
