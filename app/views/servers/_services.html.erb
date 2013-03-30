@@ -1,51 +1,21 @@
-<% recent_ping_log = server.ping_logs.recent(1.day).desc_by_date.first %>
-<% recent_http_log = server.http_logs.recent(1.day).desc_by_date.first %>
+<% services.each do |srv| %>
+  <% status = srv.status_before(1.day) %>
+  <% rate = srv.recent_rate(1.day) %>
 
-
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <%= status_accordion_toggle_tag server.ping_status_before(1.day), "#ping_#{server.id}" do %>
-        <%= ping_status_icon_tag server %>
-        <%= ping_rate_tag server %>
-        ping
-    <% end %>
-  </div>
-  <div id="ping_<%= server.id %>" class="accordion-body collapse">
-    <div class="accordion-inner">
-      <% if recent_ping_log %>
-        <p>前回の平均応答時間: <%= recent_ping_log.avg %>[ms]</p>
-        <p>前回の監視日時：<%= l recent_ping_log.date %></p>
-
-        <!-- グラフ -->
-        <%= javascript_tag do %>
-          ping_logs_path['<%= server.id %>'] = '<%= server_ping_logs_path server %>';
-        <% end %>
-        <div id='chart_ping_<%= server.id %>' style='width: 100%'></div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <%= status_accordion_toggle_tag status, "#service_#{srv.id}" do %>
+          <%= status_icon_tag status %>
+          <%= rate_tag rate, status %>
+          <%= srv.type %>
       <% end %>
     </div>
-  </div>
-</div>
+    <div id="service_<%= srv.id %>" class="accordion-body collapse">
+      <div class="accordion-inner">
 
-<div class="accordion-group">
-  <div class="accordion-heading">
-    <%= status_accordion_toggle_tag server.http_status_before(1.day), "#http_#{server.id}" do %>
-      <%= http_status_icon_tag server %>
-      <%= http_rate_tag server %>
-      HTTP
-    <% end %>
-  </div>
-  <div id="http_<%= server.id %>" class="accordion-body collapse">
-    <div class="accordion-inner">
-      <% if recent_http_log %>
-        <p>前回の平均応答時間: <%= recent_http_log.avg %>[ms]</p>
-        <p>前回の監視日時：<%= l recent_http_log.date %></p>
-
-        <!-- グラフ -->
-        <%= javascript_tag do %>
-          http_logs_path['<%= server.id %>'] = '<%= server_http_logs_path server %>';
-        <% end %>
-        <div id='chart_http_<%= server.id %>' style='width: 100%'></div>
-      <% end %>
+      </div>
     </div>
   </div>
-</div>
+<% end %>
+
+

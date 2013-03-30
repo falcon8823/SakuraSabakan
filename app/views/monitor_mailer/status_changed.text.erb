@@ -8,9 +8,9 @@
 【サーバ状態】 <%= @server_status %>
 
 【各サービスの状態】
-ping: <%= MonitorMailer::STATUS_MSG[@server.ping_status_before(1.day)] %>
-http: <%= MonitorMailer::STATUS_MSG[@server.http_status_before(1.day)] %>
-
+<% @server.services.each do |srv| %>
+<%= srv.type %>: <%= MonitorMailer::STATUS_MSG[srv.status_before(1.day)] %>
+<% end %>
 
 監視詳細は下記のURLにアクセスしてください。
 <%= servers_url %>

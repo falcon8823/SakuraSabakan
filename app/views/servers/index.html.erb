@@ -14,13 +14,15 @@
 <% @servers.each_slice 2 do |servers| %>
   <div class="row">
     <% servers.each do |server| %>
+    <% status = server.status_before(1.day) %>
+    <% rate = server.recent_rate(1.day) %>
     <div class="span6">
       <div class="accordion-group">
         <div class="accordion-heading">
-          <%= status_accordion_toggle_tag server.status_before(1.day), "#server_#{server.id}" do %>
+          <%= status_accordion_toggle_tag status, "#server_#{server.id}" do %>
             <h4>
-              <%= server_status_icon_tag server %>
-
+              <%= status_icon_tag status %>
+              <%= rate_tag rate, status %>
               <%= server.address %>
               - <%= server.description %>
             </h4>
@@ -32,7 +34,7 @@
               <%= link_to icon_tag('icon-cog') + '設定',
                 edit_server_path(server), :class => 'btn btn-mini' %>
             <% end %>
-              <%= render partial: 'services', locals: {server: server} %>
+              <%= render partial: 'services', locals: {services: server.services} %>
 
           </div>
         </div>
