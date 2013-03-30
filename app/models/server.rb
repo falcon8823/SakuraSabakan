@@ -11,97 +11,42 @@ class Server < ActiveRecord::Base
   validates :address,
     uniqueness: true,
     presence: true,
-    length: {maximum: 30}
+    length: { maximum: 30 }
   validate :address_valid?
 
-  validates :account_id,
-    presence: true,
-    numericality: :only_integer
 
-  # 監視を実行
+  # 全サービスの監視を実行
   def check
-    # 前回の監視状態
-    before_status = {}
-    before_status[:ping] = ping_status_before 1.day
-    before_status[:http] = http_status_before 1.day
+    before = []
+    after = []
 
-    # 監視を実行
-    self.check_ping
-    self.check_http
-
-    # 今回の監視状態
-    after_status = {}
-    after_status[:ping] = ping_status_before 1.day
-    after_status[:http] = http_status_before 1.day
-
-    notice = false
-    after_status.each do |k, v|
-      # 監視結果が前回と変わった場合
-      unless before_status[k] == v
-        notice = true
-      end
+    self.services.each do |s|
+      before << s.status_before(1.day)
+      s.check
+      after << s.status_before(1.day)
     end
 
-    # 監視結果が変わった場合メール通知
-    MonitorMailer.status_changed(self).deliver if notice
+    # 前回の監視結果と異なる場合メール通知
+    MonitorMailer.status_changed(self).deliver unless before == after
   end
 
-  # 最近1日間サーバ（全サービス）の稼働率
+  # サーバ（全サービス）の稼働率
   def recent_rate(from)
-    service_rates = []
-    service_rates << recent_ping_rate(from)
-    service_rates << recent_http_rate(from)
+    rate = 100.0
+    rate = self.services.inject(0) { |sum, service| sum + service.recent_rate(from) } / self.services.count unless self.services.empty?
 
-    rate = service_rates.inject{|sum, i| sum + i } / service_rates.count
-    rate.round 1
-  end
-
-  # 直前のログにエラーがいくつあるか
-  def count_errors_just_before
-    pings = self.ping_logs.recent(1.day).asc_by_date
-    https = self.http_logs.recent(1.day).asc_by_date
-    res = []
-
-    res << (pings.last.status == 'Failed') if pings.last
-    res << (https.last.status !~ /^[1-3].*$/) if https.last
-
-    return res.count{|i| i }
-  end
-
-  # 最近の全エラー数
-  def count_errors_before(span)
-    res = []
-    res << self.ping_logs.recent(span).failed.count
-    res << self.http_logs.recent(span).failed.count
-
-    return res.inject { |sum, i| sum + i }
-  end
-
-  # 監視ログがあるかどうか
-  def count_logs
-    res = []
-    res << self.ping_logs.recent(1.day).count
-    res << self.http_logs.recent(1.day).count
-
-    return res.inject { |sum, i| sum + i }
+    return rate.round(1)
   end
 
   def status_before(from)
-    if self.count_logs == 0
-      # ログが無ければブルー
-      alert = :no_log
+    # ステータスに重みをつける
+    h = { danger: 3, warning: 2, success: 1, no_log: 0 }
 
-    elsif self.count_errors_just_before != 0
-      # 前回のログにエラーがある場合は警告
-      alert = :danger
-
-    elsif self.count_errors_before(1.hour) != 0
-      # 過去1時間にエラーがあれば注意
-      alert = :warning
-    else
-      # 何も無ければグリーン
-      alert = :success
-    end
+    # 全サービスの中で重みが高いステータスを返す
+    return self.services.inject(:no_log) { |most, srv|
+      now = srv.status_before(from)
+      h[now] > h[most] ? now : most
+    }
   end
 
   private
