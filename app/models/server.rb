@@ -5,11 +5,7 @@ class Server < ActiveRecord::Base
 
   # Relation Ship
   belongs_to :account
-
-  has_many :ping_logs,
-    dependent: :delete_all
-  has_many :http_logs,
-    dependent: :delete_all
+  has_many :services, dependent: :delete_all
 
   # Validations
   validates :address,
@@ -49,96 +45,6 @@ class Server < ActiveRecord::Base
     # 監視結果が変わった場合メール通知
     MonitorMailer.status_changed(self).deliver if notice
   end
-
-  # pingの監視を実行
-  def check_ping
-    # ping実行
-    ping_str = `ping -c 5 #{self.address}`
-    # pingのログから情報を抽出
-    parser = PingLogParser.new ping_str
-    rtt = parser.rtt
-    stat = parser.stat
-
-    # ログに記録
-    ping_log = self.ping_logs.new
-    ping_log.attributes = rtt
-    ping_log.attributes = stat
-    ping_log.ping_detail = ping_str
-    # ロス率80%以上でエラー
-    ping_log.status = (stat[:packet_loss] >= 80.0 ? 'Failed' : 'Success')
-
-    ping_log.save!
-
-    return ping_logs
-  end
-
-  # 最近のpingの稼働率
-  def recent_ping_rate(from)
-    logs = self.ping_logs.recent(from)
-    rate = logs.success.count.to_f / logs.count * 100
-    rate.round 1
-  end
-
-  def ping_status_before(from)
-    if self.ping_logs.recent(from).count == 0
-      h = :no_log
-    elsif self.ping_logs.recent(from).asc_by_date.last.status == 'Failed'
-      h = :danger
-    elsif self.ping_logs.failed.recent(1.hour).count != 0
-      h = :waring
-    else
-      h = :success
-    end
-
-    return h
-  end
-
-
-
-
-  # httpの監視を実行
-  def check_http
-    # http実行
-    ping_str = `http -s -c 5 #{self.address}`
-    # httpのログから情報を抽出
-    parser = HttpingLogParser.new ping_str
-    rtt = parser.rtt
-    stat = parser.stat
-
-    # ログに記録
-    log = self.http_logs.new
-    log.attributes = rtt
-    log.attributes = stat
-    log.detail = ping_str
-    log.status = parser.status[:status]
-
-    log.save!
-
-    return log
-  end
-
-	# 最近1日間のHTTPの稼働率
-  def recent_http_rate(from)
-    logs = self.http_logs.recent(from)
-    rate = logs.success.count.to_f / logs.count * 100
-    rate.round 1
-  end
-
-  def http_status_before(from)
-    if self.http_logs.recent(from).count == 0
-      h = :no_log
-    elsif self.http_logs.recent(from).asc_by_date.last.status !~ /^[1-3].*$/
-      h = :danger
-    elsif self.http_logs.failed.recent(1.hour).count != 0
-      h = :waring
-    else
-      h = :success
-    end
-
-    return h
-  end
-
-
 
   # 最近1日間サーバ（全サービス）の稼働率
   def recent_rate(from)

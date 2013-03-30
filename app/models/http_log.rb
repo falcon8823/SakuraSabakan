@@ -3,13 +3,9 @@ class HttpLog < ActiveRecord::Base
     :failed_rate, :max, :min, :server_id, :status
 
   # Relation Ship
-  belongs_to :server
+  belongs_to :service
 
   # Validations
-  validates :server_id,
-    numericality: :only_integer
-  validates :server_id, :status,
-    presence: true
 
   # Scopes
   scope :asc_by_date, lambda { order 'date ASC' }

@@ -4,13 +4,9 @@ class PingLog < ActiveRecord::Base
     :transmitted, :received, :packet_loss
 
   # Relation Ship
-  belongs_to :server
+  belongs_to :service
 
   # Validations
-  validates :server_id,
-  	numericality: :only_integer
-  validates :server_id, :status,
-  	presence: true
 
   # Scopes
   scope :asc_by_date, lambda { order 'date ASC' }
