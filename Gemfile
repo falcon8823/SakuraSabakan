@@ -26,6 +26,10 @@ group :development do
 	gem 'meta_request'
 end
 
+group :development, :test do
+  gem 'rspec-rails'
+end
+
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'rails-i18n'
