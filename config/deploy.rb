@@ -20,7 +20,7 @@ set :use_sudo, false
 task :production do
   set :domain, "sabakan.falconsrv.net"
   set :user, "falcon"
-  set :branch, "production"
+  set :branch, "deploy/1.0.0"
   role :web, domain # 公開サーバ
   role :app, domain # 設置サーバ
   role :db,  domain, :primary => true # プライマリDBサーバ
